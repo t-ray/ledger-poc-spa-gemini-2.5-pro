@@ -13,4 +13,7 @@ export interface Account {
   
     /** Date for the starting balance ('YYYY-MM-DD') */
     startingBalanceDate: string;
+
+    /** Optional starting transaction ID for importing existing transactions */
+    startingTransactionId?: string;
   }

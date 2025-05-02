@@ -1,54 +1,19 @@
-# React + TypeScript + Vite
+# Ledger
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This application is a simple attempt at emulating a manual process I use today to track transactions across my various accounts. It is intended to be a playground and learning opportunity for myself, both to jump into front end development, as well as exploring the capabilities of AI / Agentic tools. For anyone interested in the background / see [ths post](https://dev.to/thutch1976/the-application-candidate-personal-ledger-1bp3). It is a SPA implemented in React, and is intended to be run from the desktop/developer's workstation.
 
-Currently, two official plugins are available:
+Since this is mostly for personal use, it uses US based formatting (dates, monetary amounts) and there are no plans to support any i18n or customization, nor any plans for mobile friendly views.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Initial Version
+The initial version of this code was generated from Gemini 2.5 Pro, as I have documented [here](https://dev.to/thutch1976/letting-ai-build-my-frontend-a-tale-of-two-chatbots-8no). The stack is React with Vite, the standard react router, browser local storage for persistence, and it uses Material for the styling.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Workspace Setup & Execution
+Assuming you have a working node environment (I'm unsure on specific version requirements), it should be as easy as:
+```shell
+npm install
+npm run dev
 ```
+And the page should nominally be available locally on [port 5137](http://localhost:5173/).
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Data Model & Workflow
+The basic data model is described in the [data model prompt document](https://github.com/t-ray/ledger-poc-spa-gemini-2.5-pro/blob/main/prompts/domain-model.md). At a very high level, there are three entities: Accounts, Categories, and Transactions. Since the application emulates a manual process incorporating a spreadsheet, the application will favor fast data entry and keyboard use.

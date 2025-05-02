@@ -2,29 +2,32 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
-import HomePage from './pages/HomePage';
-import TransactionEntryPage from './pages/TransactionEntryPage';
 import AccountsPage from './pages/AccountsPage';
+import AccountFormPage from './pages/AccountFormPage';
+import TransactionPage from './pages/TransactionPage';
+import TransactionEntryPage from './pages/TransactionEntryPage';
 import CategoriesPage from './pages/CategoriesPage';
+import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline'; // Import CssBaseline
 import Container from '@mui/material/Container'; // Import Container
 
 const App: React.FC = () => {
   return (
-    <>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <CssBaseline /> {/* Apply baseline styles */}
       <NavBar />
-      {/* Use MUI Container for consistent padding and max-width */}
-      <Container component="main" sx={{ mt: 2, mb: 2 }}> {/* Add top/bottom margin */}
+      <Box component="main" sx={{ flexGrow: 1 }}>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/entry" element={<TransactionEntryPage />} />
+          <Route path="/" element={<TransactionPage />} />
+          <Route path="/transactions" element={<TransactionPage />} />
+          <Route path="/enter-transaction" element={<TransactionEntryPage />} />
           <Route path="/accounts" element={<AccountsPage />} />
+          <Route path="/accounts/new" element={<AccountFormPage />} />
+          <Route path="/accounts/edit/:accountId" element={<AccountFormPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
-          <Route path="*" element={<h1>404 - Page Not Found</h1>} />
         </Routes>
-      </Container>
-    </>
+      </Box>
+    </Box>
   );
 };
 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insert Test Transactions</title>
+</head>
+<body>
+    <script>
+        // Get the first account
+        const accounts = JSON.parse(localStorage.getItem('ledger_accounts') || '[]');
+        if (accounts.length === 0) {
+            document.write('No accounts found. Please create an account first.');
+        } else {
+            const firstAccount = accounts[0];
+            const categories = JSON.parse(localStorage.getItem('ledger_categories') || '[]');
+            if (categories.length === 0) {
+                document.write('No categories found. Please create categories first.');
+            } else {
+                // Get existing transactions to determine next display ID
+                const existingTransactions = JSON.parse(localStorage.getItem('ledger_transactions') || '[]');
+                const accountTransactions = existingTransactions.filter(t => t.accountId === firstAccount.id);
+                let nextDisplayId = accountTransactions.length > 0 
+                    ? parseInt(accountTransactions[accountTransactions.length - 1].displayId) + 1 
+                    : 1;
+
+                // Generate 100 transactions
+                const newTransactions = [];
+                const today = new Date();
+                const transactionTypes = [
+                    'Deposit', 'Transfer', 'Debit', 'ACH', 'Withdrawal',
+                    'Interest Payment', 'Check', 'Wire', 'Purchase', 'Dividend'
+                ];
+                const vendors = ['Grocery Store', 'Gas Station', 'Restaurant', 'Online Shop', 'Utility Company'];
+
+                for (let i = 0; i < 100; i++) {
+                    // Random date within last 30 days
+                    const date = new Date(today);
+                    date.setDate(date.getDate() - Math.floor(Math.random() * 30));
+                    
+                    // Random amount between -100000 and 100000 cents (-$1000 to $1000)
+                    const amount = Math.floor(Math.random() * 200000) - 100000;
+                    
+                    const transaction = {
+                        transactionId: (existingTransactions.length + i + 1).toString(),
+                        displayId: nextDisplayId.toString().padStart(8, '0'),
+                        accountId: firstAccount.id,
+                        date: date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }),
+                        amount: amount,
+                        vendor: vendors[Math.floor(Math.random() * vendors.length)],
+                        type: transactionTypes[Math.floor(Math.random() * transactionTypes.length)],
+                        categoryId: categories[Math.floor(Math.random() * categories.length)].id,
+                        isIncome: amount > 0,
+                        isFixed: Math.random() < 0.2, // 20% chance of being fixed
+                        isSpend: Math.random() < 0.8, // 80% chance of being spend
+                        digits: Math.floor(Math.random() * 9999).toString().padStart(4, '0')
+                    };
+                    
+                    newTransactions.push(transaction);
+                    nextDisplayId++;
+                }
+
+                // Sort by date
+                newTransactions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+                // Add to existing transactions
+                const allTransactions = [...existingTransactions, ...newTransactions];
+                localStorage.setItem('ledger_transactions', JSON.stringify(allTransactions));
+                
+                document.write(`Successfully added 100 test transactions to account ${firstAccount.id}`);
+            }
+        }
+    </script>
+</body>
+</html> 
