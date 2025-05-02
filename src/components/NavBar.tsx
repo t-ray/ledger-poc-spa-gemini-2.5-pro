@@ -5,21 +5,31 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography'; // Optional for title
+import Typography from '@mui/material/Typography';
 
 const NavBar: React.FC = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        {/* Optional Title */}
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Finance Tracker
+        {/* Application Title */}
+        <Typography 
+          variant="h6" 
+          component={RouterLink} 
+          to="/" 
+          sx={{ 
+            flexGrow: 0,
+            textDecoration: 'none',
+            color: 'inherit',
+            marginRight: 4
+          }}
+        >
+          Ledger
         </Typography>
 
         {/* Navigation Buttons */}
-        <Box>
+        <Box sx={{ flexGrow: 1 }}>
           <Button color="inherit" component={RouterLink} to="/">Home</Button>
-          <Button color="inherit" component={RouterLink} to="/entry">Enter Transaction</Button>
+          <Button color="inherit" component={RouterLink} to="/transactions">Transactions</Button>
           <Button color="inherit" component={RouterLink} to="/accounts">Accounts</Button>
           <Button color="inherit" component={RouterLink} to="/categories">Categories</Button>
         </Box>
